@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
 	const navigate = useNavigate()
@@ -10,10 +10,11 @@ const Navbar = () => {
 
   return (
     <nav>
-      <button onClick={() => nav("/")}>Home</button>
-      <button onClick={() => nav("/about")}>About</button>
+      <button onClick={() => nav("/")}>Browse</button>
+      <button onClick={() => nav("/mycoins")}>MyCoins</button>
+      {/* <button onClick={() => }>Logout</button> */}
       {/* <button onClick={() => navigate("/profile")}>Profile</button> */}
-	  <Link to='/profile'>Profile</Link>
+	  {/* <Link to='/profile'>Profile</Link> */}
     </nav>
   );
 };

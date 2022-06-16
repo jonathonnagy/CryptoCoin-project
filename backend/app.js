@@ -20,6 +20,7 @@ app.use(morgan(":method :url :status - HOST: :host  - :response-time ms")); // u
 
 const dashboardRoutes = require("./route/dashboard");
 app.use("/api/dashboards", dashboardRoutes);
+
 const userRoutes = require("./route/user.js");
 app.use("/api/user", userRoutes);
 

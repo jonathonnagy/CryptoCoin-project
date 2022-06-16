@@ -4,17 +4,19 @@ const http = require("../util/http");
 const User = require("../model/user");
 const auth = require("../middleware/auth");
 const config = require("../app.config");
+const bcrypt = require("bcrypt");
 
 router.post("/login", auth({ block: false }), async (req, res) => {
   const payload = req.body;
-  if (!payload) return res.status(400).send("Nice try");
+  if (!payload) return res.status(400).send("Nice try1");
 
   const code = payload.code;
   const provider = payload.provider;
-  if (!code || !provider) return res.status(400).send("Nice try");
-  if (!Object.keys(config.auth).includes(provider)) return res.status(400).send("Nice try");
+  if (!code || !provider) return res.status(400).send("Nice try2");
+  if (!Object.keys(config.auth).includes(provider))
+    return res.status(400).send("Nice try3");
 
-  const configProvider = config.auth[provider]; // google or github
+  const configProvider = config.auth[provider]; // google or github or login_form_password
   const link = configProvider.tokenEndpoint;
 
   // our own http module
@@ -35,7 +37,7 @@ router.post("/login", auth({ block: false }), async (req, res) => {
   );
 
   if (!response) return res.status(500).send("Token provider error");
-  if (response.status !== 200) return res.status(401).send("Nice try");
+  if (response.status !== 200) return res.status(401).send("Nice try4");
 
   let oId;
   const onlyOauth = !response.data.id_token;
@@ -51,7 +53,7 @@ router.post("/login", auth({ block: false }), async (req, res) => {
       }
     );
     if (!userResponse) return res.status(500).send("provider error");
-    if (userResponse.status !== 200) return res.status(401).send("Nice try");
+    if (userResponse.status !== 200) return res.status(401).send("Nice try5");
     oId = userResponse.data.id;
   } else {
     const decoded = jwt.decode(response.data.id_token);
@@ -69,7 +71,10 @@ router.post("/login", auth({ block: false }), async (req, res) => {
   }
 
   const token = jwt.sign(
-    { userId: user?._id, providers: user ? user.providers : { [provider]: oId } },
+    {
+      userId: user?._id,
+      providers: user ? user.providers : { [provider]: oId },
+    },
     process.env.SECRET_KEY,
     { expiresIn: "1h" }
   ); // conditional chaining bro
@@ -82,14 +87,70 @@ router.post("/login", auth({ block: false }), async (req, res) => {
 
 router.post("/create", auth({ block: true }), async (req, res) => {
   if (!req.body?.username) return res.sendStatus(400);
+  // const userExists = await User.findOne({ username });
+
+  // if (userExists) return res.status(422).json({ error: "User already exists" });
 
   const user = await User.create({
     username: req.body.username,
     providers: res.locals.user.providers,
   });
 
-  const token = jwt.sign({ userId: user._id, providers: user.providers }, process.env.SECRET_KEY, { expiresIn: "1h" });
+  const token = jwt.sign(
+    { userId: user._id, providers: user.providers },
+    process.env.SECRET_KEY,
+    { expiresIn: "1h" }
+  );
   res.status(200).json(token);
+});
+
+//registrate from form
+router.post("/form_register", async (req, res) => {
+  console.log("endpoint start");
+  const { username, password, cpassword } = req.body;
+
+  if (!username || !password || !cpassword) {
+    return res.status(422).json({ error: "You need to fill all inputs" });
+  }
+
+  try {
+    const userExists = await User.findOne({ username });
+
+    if (userExists) {
+      return res.status(422).json({ error: "User already exists" });
+    } else if (password !== cpassword) {
+      return res.status(422).json({ error: "Passwords are not matching" });
+    } else {
+      //hash password with bcrypt
+      const salt = await bcrypt.genSalt(6);
+      const hashedPassword = await bcrypt.hash(password, salt);
+
+      const user = new User({ username, password: hashedPassword });
+      await user.save();
+      console.log("saved");
+      return res.status(201).json({ message: "User successfully registered!" });
+    }
+  } catch (error) {
+    res.status(400).send({ error: "Something went wrong while registrating" });
+  }
+});
+
+router.post("/form_login", async (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(422).json({ error: "You need to fill all inputs" });
+  }
+  try {
+    const userExists = await User.findOne({ username });
+    const hashedPassword = userExists.password;
+    const validPassword = await bcrypt.compare(password, hashedPassword);
+    if (!userExists || !validPassword)
+      return res.status(422).json({ error: "Wrong username or password!" });
+    res.status(201).json({ message: "Logged in successfully" });
+  } catch (error) {
+    res.status(400).json({ error: "Somethin went wrong while logging in" });
+  }
 });
 
 module.exports = router;
