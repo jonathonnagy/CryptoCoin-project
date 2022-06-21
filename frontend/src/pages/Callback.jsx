@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../providers/auth";
 
+import CircularProgress from '@mui/material/CircularProgress';
+
 const Callback = () => {
-	const { socialLogin } = useAuth();
+	const { socialLogin, user } = useAuth();
 	const navigate = useNavigate()
   
 	useEffect(() => {
@@ -23,10 +25,8 @@ const Callback = () => {
 	  }, []);
 
   return (
-
-	<div>
-		<h1>Callback page</h1>
-		<p>Loadig</p>
+	<div className='loading-spinner'>
+		<CircularProgress color="inherit" size={80} />
 	</div>
   )
 }

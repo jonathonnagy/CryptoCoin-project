@@ -87,10 +87,9 @@ router.post("/login", auth({ block: false }), async (req, res) => {
 
 router.post("/create", auth({ block: true }), async (req, res) => {
   if (!req.body?.username) return res.sendStatus(400);
-  // const userExists = await User.findOne({ username });
+  const userExists = await User.findOne({ username: req.body.username });
 
-  // if (userExists) return res.status(422).json({ error: "User already exists" });
-
+  if (userExists) return res.status(422).json({ error: "User already exists" });
   const user = await User.create({
     username: req.body.username,
     providers: res.locals.user.providers,
@@ -106,7 +105,6 @@ router.post("/create", auth({ block: true }), async (req, res) => {
 
 //registrate from form
 router.post("/form_register", async (req, res) => {
-  console.log("endpoint start");
   const { username, password, cpassword } = req.body;
 
   if (!username || !password || !cpassword) {

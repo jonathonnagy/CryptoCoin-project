@@ -24,6 +24,9 @@ app.use("/api/dashboards", dashboardRoutes);
 const userRoutes = require("./route/user.js");
 app.use("/api/user", userRoutes);
 
+const apiRoutes = require("./route/coinMarketCapApi")
+app.use("/api/coin", apiRoutes)
+
 app.get("/", (req, res) => {
   console.log("Health check completed");
   res.sendStatus(200);

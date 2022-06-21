@@ -1,42 +1,41 @@
 import React, { useState } from "react";
-import http from 'axios';
+import http from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../providers/auth";
-
 
 const Registrate = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [cpassword, setCpassword] = useState("");
-  const [resData, setResData] = useState('');
+  const [resData, setResData] = useState("");
 
-  const { googleAuth } = useAuth()
+  const { googleAuth } = useAuth();
 
   const formSignup = async (e) => {
     e.preventDefault();
     try {
-		const response = await http.post(
-			"http://localhost:4000/api/user/form_register",
-			{
-			  username,
-			  password,
-			  cpassword,
-			}
-		  );
-		  console.log(response)
-		  setResData(response.data.message);
-	} catch (error) {
-		// console.log(error)
-		setResData(error.response.data.error)
-	}
+      const response = await http.post(
+        "http://localhost:4000/api/user/form_register",
+        {
+          username,
+          password,
+          cpassword,
+        }
+      );
+      console.log(response);
+      setResData(response.data.message);
+    } catch (error) {
+      // console.log(error)
+      setResData(error.response.data.error);
+    }
   };
 
   return (
     <>
       <h1>Collect coins in one place</h1>
       <form>
-		<h2>Signup</h2>
+        <h2>Signup</h2>
         <input
           type="text"
           placeholder="Username"
@@ -61,9 +60,12 @@ const Registrate = () => {
         <button onClick={(e) => formSignup(e)}>Signup</button>
         <button onClick={googleAuth}>Signup with Google</button>
         {/* <button onClick={(e) => formSignup(e)}>Signup with Facebook</button> */}
-	  <p>{resData}</p>
+        <p>{resData}</p>
       </form>
-	  <p>Allready have an account? <button onClick={()=>navigate('/login')}>Sign in here</button>.</p>
+      <p>
+        Allready have an account?{" "}
+        <button onClick={() => navigate("/login")}>Sign in here</button>.
+      </p>
     </>
   );
 };

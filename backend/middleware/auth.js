@@ -5,7 +5,7 @@ const auth =
   (req, res, next) => {
     console.log("authenticating...");
     const token = req.headers.authorization;
-    if (!token && block) return res.sendStatus(401);
+    if (!token && block) return res.sendStatus(401).json({error: 'Token error!'});
 
     jwt.verify(token, process.env.SECRET_KEY, (err, payload) => {
       if (err && block) res.sendStatus(401);
