@@ -20,8 +20,6 @@ router.get("/latest", async (req, res) => {
     //   console.log(response.data)
     res.send(response.data);
   } catch (error) {
-    // console.log(error)
-    // console.log('not gooood')
     res.send(error);
   }
 });
