@@ -585,7 +585,7 @@ const Browse = () => {
 	// console.log(coinsArr)
   return (
     <div className="top-wrapper">
-      <div>Browse</div>
+      <div>Browse Coins</div>
 	  <h1>Top 10 popular coins</h1>
 	  <div className="card-container">
 	  	{coinsArr.map((coinData, index) => <CoinCard key={index} coinData={coinData} />)}
