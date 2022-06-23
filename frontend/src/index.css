@@ -18,6 +18,8 @@ code {
   text-align: center;
 }
 
+
+
 nav{
   display: flex;
   justify-content: flex-end;
@@ -64,7 +66,7 @@ nav{
 }
 
 .card-container{
-  max-width: 90%;
+  max-width: 70%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
