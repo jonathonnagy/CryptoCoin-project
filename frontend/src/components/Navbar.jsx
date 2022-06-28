@@ -32,6 +32,7 @@ const Navbar = () => {
       <nav>
         <Button onClick={() => navigate("/")} size="large" sx={{color:'#B4945A'}}>Browse</Button>
         <Button onClick={() => navigate("/mycoins")} size="large" sx={{color:'#B4945A'}}>MyCoins</Button>
+        <Button onClick={() => navigate("/profile")} size="large" sx={{color:'#B4945A'}}>Profile</Button>
         <Button onClick={removeToken} variant="contained" size="large" sx={{bgcolor: "text.secondary"}}>Logout</Button>
       </nav>
 

@@ -62,7 +62,8 @@ nav{
 
 } */
 .coin-card img{
-  /* width: 100px; */
+  width: 80px;
+  border-radius: 50%;
 }
 
 .card-container{
@@ -74,4 +75,24 @@ nav{
   margin-top: 5vh;
   /* gap: 40px; */
   /* border: 1px solid black; */
+}
+
+.bottom-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  width: 100%;
+}
+
+.bottom-wrapper input{
+  width: 35vw;
+  height: 35px;
+  text-align: center;
+  border: 1px solid rgb(67, 67, 67);
+  border-radius: 50px;
+}
+
+.bottom-wrapper input:focus::placeholder {
+  color: transparent;
 }

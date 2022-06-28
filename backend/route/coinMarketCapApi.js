@@ -9,7 +9,7 @@ const http = require("axios");
 router.get("/latest", async (req, res) => {
   try {
     const response = await http.get(
-      "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=10",
+      "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=20",
       {
         headers: {
           "X-CMC_PRO_API_KEY": process.env.CMC_API_KEY,

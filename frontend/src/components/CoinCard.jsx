@@ -11,14 +11,16 @@ const CoinCard = ({ coinData }) => {
 //           id: coinData.id,
 //         },
 //       });
-//       //   console.log(response.data.data);
+//         console.log(response.data);
 //       setCoinInfo(response.data.data[coinData.id]);
 //     } catch (error) {
-//       console.log(error);
-//       throw new Error(error);
+// 		console.log(error);
+// 		throw new Error(error);
 //     }
-//   };
-	const response = {
+// 	};
+
+
+const response = {
 		"id": 5426,
 		"name": "Solana",
 		"symbol": "SOL",
