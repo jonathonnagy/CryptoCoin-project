@@ -42,6 +42,8 @@ nav{
   height: 100vh;
 }
 
+
+  /* Browse page */
 .top{
   position: relative;
   display: flex;
@@ -164,7 +166,12 @@ nav{
 }
 
 .browse-header{
-  background-color: rgba(105, 105, 105, 0.66);
+  /* background: rgb(72,86,97);
+  background: linear-gradient(0deg, rgba(72,86,97,1) 6%, rgba(130,130,130,0.6489189425770308) 100%); */
+  font-size: 40px;
+  margin: 0;
   width: 9em;
   border-radius: 50px;
 }
+
+/* Browse page end */

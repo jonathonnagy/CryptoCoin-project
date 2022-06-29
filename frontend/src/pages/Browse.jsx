@@ -1073,7 +1073,11 @@ const Browse = () => {
       element.name === "Shiba Inu" ||
       element.name === "Terra" ||
       element.name === "Ethereum" ||
-      element.name === "Polygon"
+      element.name === "Polygon" ||
+      element.name === "Bitcoin" ||
+      element.name === "BNB" ||
+      element.name === "Solana" ||
+      element.name === "BNB"
   );
 
   useEffect(() => {
