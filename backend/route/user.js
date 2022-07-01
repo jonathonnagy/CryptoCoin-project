@@ -125,7 +125,7 @@ router.post("/form_register", async (req, res) => {
 
       const user = new User({ username, password: hashedPassword });
       await user.save();
-      console.log("saved");
+      // console.log("saved");
       return res.status(201).json({ message: "User successfully registered!" });
     }
   } catch (error) {
@@ -150,6 +150,58 @@ router.post("/form_login", async (req, res) => {
     res.status(400).json({ error: "Somethin went wrong while logging in" });
   }
 });
+
+router.post("/add-to-mycoin", async (req, res) => {
+  const {id, name} = req.body
+  if(!id) return res.status(422).json({ error: 'No Coin id!'})
+
+  try {
+    const symbolExists = await User.findOne({coins : {id}})
+
+    if (symbolExists){
+      return res.status(422).json({ error: "Coin already saved" });
+    }
+
+    await User.updateOne({user: req.body.user}, {$push: {coins : {id,coin_name: name}}});
+    res.status(201).json({message: "Coin saved to MyCoin"})
+
+  } catch (error) {
+    res.status(400).send({ error: "Something went wrong while savin Coin. Try to Login again!" });
+  }
+});
+
+router.post("/remove-from-mycoin", async (req, res) => {
+  const {id} = req.body
+  if(!id) return res.status(422).json({ error: 'No Coin id!'})
+
+  try {
+    const symbolExists = await User.findOne({coins : {id}})
+
+    if (!symbolExists){
+      return res.status(422).json({ error: "Coin already removed" });
+    }
+
+    User.updateOne( 
+      { "id" : userID} , 
+      { "$pull" : { "teams" : { "_id" :  teamID } } } , 
+      { "multi" : true }  
+  )
+
+    // await User.findOneAndRemove({user: req.body.user}, {$push: {coins : {id}}});
+    res.status(201).json({message: "Coin removed from MyCoin"})
+
+  } catch (error) {
+    res.status(400).send({ error: "Something went wrong while savin Coin. Try to Login again!" });
+  }
+});
+
+router.get("/get-saved", async (req, res) => {
+ 
+    const savedCoins = await User.findOne({user: req.body.user})
+    // console.log(savedCoins)
+    res.status(200).send(savedCoins)
+ 
+})
 
 module.exports = router;
 

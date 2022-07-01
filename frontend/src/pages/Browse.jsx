@@ -6,16 +6,16 @@ const Browse = () => {
   // b02e2ec4-3f8b-4c98-8a0e-300f79da7615
   const [coinsArr, setcoinsArr] = useState([]);
 
-//   const getApiData = async () => {
-//     try {
-//       const response = await http.get("http://localhost:4000/api/coin/latest");
-//       console.log(response);
-//       setcoinsArr(response.data.data);
-//     } catch (error) {
-//       console.log(error);
-//       throw new Error(error);
-//     }
-//   };
+  // const getApiData = async () => {
+  //   try {
+  //     const response = await http.get("http://localhost:4000/api/coin/latest");
+  //     console.log(response);
+  //     setcoinsArr(response.data.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //     throw new Error(error);
+  //   }
+  // };
 
   const response = {
     data: {

@@ -2,13 +2,14 @@ const mongoose = require("mongoose");
 
 
 const coinSchema = new mongoose.Schema({
-  name: { type: String, required: true }, // empty string NONO!
+  id: { type: String, required: true, unique: true }, // empty string NONO!
+  coin_name: { type: String, required: true, unique: true },
   coin_logo: { type: String }, // empty list is default?
   coin_info: { type: String }
   // coin_....: { type: String }
   // coin_....: { type: String }
   // coin_....: { type: String }
-});
+}, { _id : false });
 
 const userSchema = new mongoose.Schema({
   username: { type: String, unique: true }, // empty string NONO!

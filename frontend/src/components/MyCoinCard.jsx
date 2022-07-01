@@ -1,30 +1,31 @@
 import React, { useEffect, useState } from "react";
 import http from "axios";
-import Popup from "./Popup";
+import MyPopup from './MyPopup'
 
 
-const CoinCard = ({ coinData }) => {
-  const [coinInfo, setCoinInfo] = useState([]);
+const CoinCard = ({ id }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [coinData, setcoinData] = useState([])
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
   };
 
-    // const getCoinInfo = async () => {
-    //   try {
-    //     const response = await http.get(`http://localhost:4000/api/coin/info`, {
-    //       params: {
-    //         id: coinData.id,
-    //       },
-    //     });
-    //       console.log(response.data);
-    //     setCoinInfo(response.data.data[coinData.id]);
-    //   } catch (error) {
-  	// 	console.log(error);
-  	// 	throw new Error(error);
-    //   }
-  	// };
+  const getSavedFromApi = async () => {
+    try {
+      const response = await http.get(`http://localhost:4000/api/coin/info?id=${id}`
+      // , {
+      //   params: {
+      //     id: coinId.toString(),
+      //   },
+      // }
+      );
+    //   console.log(response.data);
+      setcoinData(response.data.data[id]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const response = {
     id: 5426,
@@ -97,24 +98,21 @@ const CoinCard = ({ coinData }) => {
     self_reported_market_cap: null,
   };
 
-
-  //   console.log(coinInfo);
   useEffect(() => {
-    // getCoinInfo();
-    setCoinInfo(response);
+	getSavedFromApi()
+	// setcoinData(response)
   }, []);
-
+// console.log(coinData)
   return (
     <>
       <div className="coin-card" onClick={togglePopup}>
         <div>
-          <img src={coinInfo.logo} alt="" />
+          <img src={coinData.logo} alt="" />
         </div>
         <h2>{coinData.name}</h2>
         <p>{coinData.symbol}</p>
       </div>
-	  {isOpen && <Popup
-      coinInfo={coinInfo}
+	  {isOpen && <MyPopup
 	  coinData={coinData}
       handleClose={togglePopup}
     />}

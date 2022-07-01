@@ -1,11 +1,53 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import CoinCard from "../components/CoinCard";
+import http from "axios";
+import { useAuth } from "../providers/auth";
+import MyCoinCard from "../components/MyCoinCard";
+import '../index.css'
 
 const MyCoins = () => {
-  return (
-	<div>MyCoins</div>
+  const { user } = useAuth();
+  const [savedCoins, setSavedCoinsId] = useState([]);
+  const [savedCoinData, setSavedCoinData] = useState([]);
+
+  const getSavedCoinsDB = async () => {
+    try {
+      const response = await http.get(
+        "http://localhost:4000/api/user/get-saved",
+        user
+      );
+      // console.log(response.data.coins);
+      setSavedCoinsId(response.data.coins);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const coinId = savedCoins.map((elem) => elem.id);
+  console.log(coinId);
+
+  
+  useEffect(() => {
+    getSavedCoinsDB();
+    // getSavedFromApi();
+  }, []);
   
 
-  )
-}
+  // console.log(savedCoinData);
+  return (
+    <>
+      <div>MyCoins</div>
+      <div className="bottom">
+        <div className="bottom-wrapper">
+          <div className="card-container">
+            {coinId.map((id, index) => (
+					<MyCoinCard key={index} id={id} />
+					))}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
 
-export default MyCoins
+export default MyCoins;

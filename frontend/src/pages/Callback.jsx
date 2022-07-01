@@ -5,7 +5,7 @@ import { useAuth } from "../providers/auth";
 import CircularProgress from '@mui/material/CircularProgress';
 
 const Callback = () => {
-	const { socialLogin, user } = useAuth();
+	const { socialLogin } = useAuth();
 	const navigate = useNavigate()
   
 	useEffect(() => {
