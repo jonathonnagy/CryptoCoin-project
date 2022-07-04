@@ -7,7 +7,7 @@ import { useAuth } from "../providers/auth";
 const MyPopup = ({ coinData, handleClose }) => {
   const [coinInfo, setCoinInfo] = useState([]);
   // const [isLoading, setLoading] = useState(true);
-  const {user} = useAuth()
+  const {user, setReloadPage, reloadPage} = useAuth()
 
 
   const getDetailsApi = async () => {
@@ -30,6 +30,7 @@ const MyPopup = ({ coinData, handleClose }) => {
         { id: coinData.id, user }
       );
       console.log(response.data.message);
+      setReloadPage(!reloadPage)
     } catch (err) {
       console.log(err.response?.data.error);
     }
@@ -37,6 +38,7 @@ const MyPopup = ({ coinData, handleClose }) => {
 
   useEffect(() => {
     getDetailsApi();
+
   }, []);
 
   // console.log(coinData);

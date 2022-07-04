@@ -6,7 +6,7 @@ import MyCoinCard from "../components/MyCoinCard";
 import '../index.css'
 
 const MyCoins = () => {
-  const { user } = useAuth();
+  const { user, reloadPage } = useAuth();
   const [savedCoinsId, setSavedCoinsId] = useState([]);
   const [state, setState] = React.useState(0);
 
@@ -24,14 +24,11 @@ const MyCoins = () => {
   };
 
   const coinId = savedCoinsId.map((elem) => elem.id);
-  // console.log(coinId);
-console.log('this is state: '+state)
+
   
   useEffect(() => {
     getSavedCoinsDB();
-    console.log('reload')
-    // getSavedFromApi();
-  }, [state]);
+  }, [reloadPage]);
   
 
   // console.log(savedCoinData);

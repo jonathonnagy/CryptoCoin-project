@@ -7,6 +7,7 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
+  const [reloadPage, setReloadPage] = useState(false)
 
   const googleAuth = (e) => {
     e.preventDefault();
@@ -70,6 +71,7 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+
   const contextValue = {
     token,
     googleAuth,
@@ -78,6 +80,8 @@ const AuthProvider = ({ children }) => {
     user,
     setUser,
     registerUsername,
+    reloadPage,
+    setReloadPage
   };
 
   useEffect(() => {
