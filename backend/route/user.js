@@ -152,53 +152,94 @@ router.post("/form_login", async (req, res) => {
 });
 
 router.post("/add-to-mycoin", async (req, res) => {
-  const {id, name, user} = req.body
-  if(!id) return res.status(422).json({ error: 'No Coin id!'})
+  const { id, name, user } = req.body;
+  if (!id) return res.status(422).json({ error: "No Coin id!" });
 
   // console.log(id)
   try {
-    const symbolExists = await User.findOne({'coins.id': id})
-    console.log(symbolExists)
-    
-    if (symbolExists){
-      console.log(symbolExists)
+    const symbolExists = await User.findOne({ "coins.id": id });
+    console.log(symbolExists);
+
+    if (symbolExists) {
+      console.log(symbolExists);
       return res.status(422).json({ error: "Coin already saved" });
     }
 
-    await User.updateOne({user: req.body.user}, {$push: {coins : {id,coin_name: name}}});
-    res.status(201).json({message: "Coin saved to MyCoin"})
-
+    await User.updateOne(
+      { user: req.body.user },
+      { $push: { coins: { id, coin_name: name } } }
+    );
+    res.status(201).json({ message: "Coin saved to MyCoin" });
   } catch (error) {
-    res.status(400).send({ error: "Something went wrong while savin Coin. Try to Login again!" });
+    res
+      .status(400)
+      .send({
+        error: "Something went wrong while savin Coin. Try to Login again!",
+      });
   }
 });
 
 router.post("/remove-from-mycoin", async (req, res) => {
-  const {id, user} = req.body
-  if(!id) return res.status(422).json({ error: 'No Coin id!'})
+  const { id, user } = req.body;
+  if (!id) return res.status(422).json({ error: "No Coin id!" });
 
   try {
-    const symbolExists = await User.findOne({'coins.id': id})
+    const symbolExists = await User.findOne({ "coins.id": id });
 
-    if (!symbolExists){
+    if (!symbolExists) {
       return res.status(422).json({ error: "Coin already removed" });
     }
 
-    await User.findOneAndUpdate({user: user}, {$pull: {coins : {id}}});
-    res.status(200).json({message: "Coin removed from MyCoin"})
-
+    await User.findOneAndUpdate({ user: user }, { $pull: { coins: { id } } });
+    res.status(200).json({ message: "Coin removed from MyCoin" });
   } catch (error) {
-    res.status(400).send({ error: "Something went wrong while removing Coin. Try to Login again!" });
+    res
+      .status(400)
+      .send({
+        error: "Something went wrong while removing Coin. Try to Login again!",
+      });
   }
 });
 
 router.get("/get-saved", async (req, res) => {
- 
-    const savedCoins = await User.findOne({user: req.body.user})
-    // console.log(savedCoins)
-    res.status(200).send(savedCoins)
- 
-})
+  const savedCoins = await User.findOne({ user: req.body.user });
+  // console.log(savedCoins)
+  res.status(200).send(savedCoins);
+});
+
+router.post("/save-profile", async (req, res) => {
+  const { firstName, lastName, birdthDate, country, user } = req.body;
+
+  // try {
+    // const symbolExists = await User.findOne({'coins.id': id})
+    // console.log(symbolExists)
+
+    // if (symbolExists){
+    //   console.log(symbolExists)
+    //   return res.status(422).json({ error: "Coin already saved" });
+    // }
+console.log(user.userId)
+    await User.findByIdAndUpdate(
+      { _id: user.userId },
+      {
+        profile: {
+          first_name: firstName,
+          last_name: lastName,
+          birdth_date: birdthDate,
+          country,
+        },
+      }
+    );
+    // console.log(findUser)
+    res.status(201).json({ message: "Profile saved!" });
+  // } catch (error) {
+  //   res
+  //     .status(400)
+  //     .send({
+  //       error: "Something went wrong while savin Profile. Try to Login again!",
+  //     });
+  // }
+});
 
 module.exports = router;
 
