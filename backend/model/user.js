@@ -3,9 +3,9 @@ const mongoose = require("mongoose");
 
 const coinSchema = new mongoose.Schema({
   id: { type: String, required: true, unique: true }, // empty string NONO!
-  coin_name: { type: String, required: true, unique: true },
-  coin_logo: { type: String }, // empty list is default?
-  coin_info: { type: String }
+  coin_name: { type: String },
+  // coin_logo: { type: String }, // empty list is default?
+  // coin_info: { type: String }
   // coin_....: { type: String }
   // coin_....: { type: String }
   // coin_....: { type: String }

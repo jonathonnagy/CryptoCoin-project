@@ -7,8 +7,8 @@ import '../index.css'
 
 const MyCoins = () => {
   const { user } = useAuth();
-  const [savedCoins, setSavedCoinsId] = useState([]);
-  const [savedCoinData, setSavedCoinData] = useState([]);
+  const [savedCoinsId, setSavedCoinsId] = useState([]);
+  const [state, setState] = React.useState(0);
 
   const getSavedCoinsDB = async () => {
     try {
@@ -23,14 +23,15 @@ const MyCoins = () => {
     }
   };
 
-  const coinId = savedCoins.map((elem) => elem.id);
-  console.log(coinId);
-
+  const coinId = savedCoinsId.map((elem) => elem.id);
+  // console.log(coinId);
+console.log('this is state: '+state)
   
   useEffect(() => {
     getSavedCoinsDB();
+    console.log('reload')
     // getSavedFromApi();
-  }, []);
+  }, [state]);
   
 
   // console.log(savedCoinData);
@@ -41,7 +42,7 @@ const MyCoins = () => {
         <div className="bottom-wrapper">
           <div className="card-container">
             {coinId.map((id, index) => (
-					<MyCoinCard key={index} id={id} />
+					<MyCoinCard key={index} id={id} handler={setState} />
 					))}
           </div>
         </div>

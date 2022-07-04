@@ -152,13 +152,16 @@ router.post("/form_login", async (req, res) => {
 });
 
 router.post("/add-to-mycoin", async (req, res) => {
-  const {id, name} = req.body
+  const {id, name, user} = req.body
   if(!id) return res.status(422).json({ error: 'No Coin id!'})
 
+  // console.log(id)
   try {
-    const symbolExists = await User.findOne({coins : {id}})
-
+    const symbolExists = await User.findOne({'coins.id': id})
+    console.log(symbolExists)
+    
     if (symbolExists){
+      console.log(symbolExists)
       return res.status(422).json({ error: "Coin already saved" });
     }
 
@@ -171,27 +174,21 @@ router.post("/add-to-mycoin", async (req, res) => {
 });
 
 router.post("/remove-from-mycoin", async (req, res) => {
-  const {id} = req.body
+  const {id, user} = req.body
   if(!id) return res.status(422).json({ error: 'No Coin id!'})
 
   try {
-    const symbolExists = await User.findOne({coins : {id}})
+    const symbolExists = await User.findOne({'coins.id': id})
 
     if (!symbolExists){
       return res.status(422).json({ error: "Coin already removed" });
     }
 
-    User.updateOne( 
-      { "id" : userID} , 
-      { "$pull" : { "teams" : { "_id" :  teamID } } } , 
-      { "multi" : true }  
-  )
-
-    // await User.findOneAndRemove({user: req.body.user}, {$push: {coins : {id}}});
-    res.status(201).json({message: "Coin removed from MyCoin"})
+    await User.findOneAndUpdate({user: user}, {$pull: {coins : {id}}});
+    res.status(200).json({message: "Coin removed from MyCoin"})
 
   } catch (error) {
-    res.status(400).send({ error: "Something went wrong while savin Coin. Try to Login again!" });
+    res.status(400).send({ error: "Something went wrong while removing Coin. Try to Login again!" });
   }
 });
 

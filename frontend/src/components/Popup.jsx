@@ -1,11 +1,13 @@
 import React from "react";
 import "../components/Popup.css";
 import http from "axios";
+import { useAuth } from "../providers/auth";
 
 const Popup = ({ coinInfo, coinData, handleClose }) => {
+  const {user} = useAuth()
   const addToMyCoin = async () => {
     try {
-		const response = await http.post('http://localhost:4000/api/user/add-to-mycoin', {'id' : coinInfo.id})
+		const response = await http.post('http://localhost:4000/api/user/add-to-mycoin', {id : coinInfo.id, name: coinInfo.name, user})
 
 		console.log(response.data.message)
 	} catch (err) {
@@ -25,7 +27,7 @@ const Popup = ({ coinInfo, coinData, handleClose }) => {
         <div className="browse-popup-data-wrapper">
           <div className="browse-popup-left">
             <img src={coinInfo.logo} alt="" />
-            <button onClick={addToMyCoin}>Add to MyCoin</button>
+            <button onClick={()=>{addToMyCoin(); handleClose()}}>Add to MyCoin</button>
           </div>
           <div className="browse-popup-right">
             <h1>{coinInfo.name}</h1>

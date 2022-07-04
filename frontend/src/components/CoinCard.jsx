@@ -115,7 +115,7 @@ const CoinCard = ({ coinData }) => {
       </div>
 	  {isOpen && <Popup
       coinInfo={coinInfo}
-	  coinData={coinData}
+	    coinData={coinData}
       handleClose={togglePopup}
     />}
     </>
