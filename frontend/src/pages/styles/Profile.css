@@ -1,0 +1,15 @@
+.wrapper-bg {
+	z-index: -6;
+}
+
+.data-view {
+	margin-top: 40px;
+}
+
+.data {
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+	align-items: flex-end;
+	gap: 80px;
+}
