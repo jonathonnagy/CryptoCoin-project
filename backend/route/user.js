@@ -199,13 +199,13 @@ router.post("/remove-from-mycoin", async (req, res) => {
 
 router.get("/get-saved", async (req, res) => {
   const savedCoins = await User.findOne({ user: req.body.user });
-  // console.log(savedCoins)
+  console.log(savedCoins)
   res.status(200).send(savedCoins);
 });
 
 router.post("/save-profile", async (req, res) => {
   const { firstName, lastName, birdthDate, country, user } = req.body;
-
+  console.log(user)
   try {
     await User.findByIdAndUpdate(
       { _id: user.userId },
@@ -225,6 +225,18 @@ router.post("/save-profile", async (req, res) => {
     });
   }
 });
+
+router.post('/get-profile-data', async (req, res) => {
+  try {
+    const { user } = req.body
+    // console.log('user: ', user)
+    const profileData = await User.findById({_id: user.userId})
+    res.send(profileData.profile)
+  } catch (error) {
+    res.send({error: error.message})
+    
+  }
+})
 
 module.exports = router;
 
