@@ -10,9 +10,7 @@ import Protected from "./components/Protected";
 import AddUsername from "./pages/AddUsername";
 import Profile from "./pages/Profile";
 
-
 function App() {
-  
   return (
     <div className="App">
       <Navbar />
@@ -37,7 +35,14 @@ function App() {
         <Route path="/registrate" element={<Registrate />} />
         <Route path="/login" element={<Login />} />
         <Route path="/callback" element={<Callback />} />
-        <Route path='/profile' element={<Profile />} />
+        <Route
+          path="/profile"
+          element={
+            <Protected>
+              <Profile />
+            </Protected>
+          }
+        />
       </Routes>
     </div>
   );
