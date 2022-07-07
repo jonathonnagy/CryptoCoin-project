@@ -8,7 +8,6 @@ import "../pages/styles/MyCoins.css";
 const MyCoins = () => {
   const { user, reloadPage } = useAuth();
   const [savedCoinsId, setSavedCoinsId] = useState([]);
-  const [state, setState] = React.useState(0);
 
   const getSavedCoinsDB = async () => {
     try {
@@ -16,7 +15,7 @@ const MyCoins = () => {
         "http://localhost:4000/api/user/get-saved",
         user
       );
-      // console.log(response.data.coins);
+      console.log(response.data);
       setSavedCoinsId(response.data.coins);
     } catch (err) {
       console.log(err);
@@ -32,7 +31,7 @@ const MyCoins = () => {
   // console.log(savedCoinData);
   return (
     <>
-      <div className="wrapper-bg">
+      <div className="wrapper-bg" />
         <h1>MyCoins Collection</h1>
         <div className="top-wrapper top-wrapper-mycoin">
           <div className="card-container">
@@ -40,13 +39,13 @@ const MyCoins = () => {
               <h2>No saved coin!</h2>
             ) : (
               coinId.map((id, index) => (
-                <MyCoinCard key={index} id={id} handler={setState} />
+                <MyCoinCard key={index} id={id} />
               ))
             )}
           </div>
         </div>
         <div className="space-cat-img"></div>
-      </div>
+      
     </>
   );
 };
