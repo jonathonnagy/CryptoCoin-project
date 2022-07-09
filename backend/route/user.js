@@ -197,15 +197,57 @@ router.post("/remove-from-mycoin", async (req, res) => {
   }
 });
 
+router.post("/add-transaction", async (req, res) => {
+  try {
+    const { quantity, pricePerCoin, fee, buyDate, user, coinId } = req.body;
+
+    if (!quantity && !pricePerCoin)
+      return res
+        .status(422)
+        .json({ error: "Quantity and Price Per Coin is required, and has to be a Number!" });
+
+    await User.updateOne(
+      { _id: user.userId, "coins.id": coinId },
+      {
+        $push: {
+          "coins.$.portfolio": {
+            quantity,
+            price_per_coin: pricePerCoin,
+            fee,
+            date_buyed: buyDate,
+          },
+        },
+      }
+    );
+    res.status(201).send({ message: "Transaction saved to portfolio." }); //message: "Transaction saved to portfolio."
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+router.get("/get-transactions", async (req, res) => {
+  try {
+    const { coinId, userId } = req.query;
+    const user = await User.findOne(
+      { _id: userId, "coins.id": coinId },
+      "coins.portfolio"
+    );
+
+    res.status(200).send(user);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
 router.get("/get-saved", async (req, res) => {
   const savedCoins = await User.findOne({ user: req.body.user });
-  console.log(savedCoins)
+  console.log(savedCoins);
   res.status(200).send(savedCoins);
 });
 
 router.post("/save-profile", async (req, res) => {
   const { firstName, lastName, birdthDate, country, user } = req.body;
-  console.log(user)
+  console.log(user);
   try {
     await User.findByIdAndUpdate(
       { _id: user.userId },
@@ -226,17 +268,16 @@ router.post("/save-profile", async (req, res) => {
   }
 });
 
-router.post('/get-profile-data', async (req, res) => {
+router.post("/get-profile-data", async (req, res) => {
   try {
-    const { user } = req.body
+    const { user } = req.body;
     // console.log('user: ', user)
-    const profileData = await User.findById({_id: user.userId})
-    res.send(profileData.profile)
+    const profileData = await User.findById({ _id: user.userId });
+    res.send(profileData.profile);
   } catch (error) {
-    res.send({error: error.message})
-    
+    res.send({ error: error.message });
   }
-})
+});
 
 module.exports = router;
 

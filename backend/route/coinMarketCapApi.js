@@ -47,7 +47,7 @@ router.get("/info", async (req, res) => {
 
 router.get("/latest-by-id", async (req, res) => {
   const {id} = req.query;
-  console.log('in here')
+
   // console.log('this id is: ' + id)
   // res.send(id)
   try {

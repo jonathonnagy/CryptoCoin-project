@@ -21,9 +21,17 @@
 	background-image: url(../../images/space-discovery.png);
 	background-repeat: no-repeat;
 	background-size: 150px;
-	width: 250px;
-	height: 280px;
-	bottom: -120px;
-	right: -100px;
+	width: 160px;
+	height: 126px;
+	bottom: 30px;
+	right: 60px;
+
+
+
 	z-index: 3;
+}
+
+
+.portfolio-data {
+	/* padding-bottom: 12px; */
 }

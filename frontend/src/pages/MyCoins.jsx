@@ -44,7 +44,9 @@ const MyCoins = () => {
             )}
           </div>
         </div>
-        <div className="space-cat-img"></div>
+        <div className="space-cat-img" />
+       
+
       
     </>
   );

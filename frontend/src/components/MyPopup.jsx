@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import http from "axios";
 import "./Popup.css";
 import { useAuth } from "../providers/auth";
+import MyPortfolio from "./MyPortfolio";
 
 
 const MyPopup = ({ coinData, handleClose }) => {
@@ -20,8 +21,8 @@ const MyPopup = ({ coinData, handleClose }) => {
       console.log(error)
     }
   };
-  console.log(coinInfo.quote?.USDrice);
-  console.log(coinInfo);
+  // console.log(coinInfo.quote?.USDrice);
+  // console.log(coinInfo);
 
   const removeFromMyCoin = async () => {
     try {
@@ -90,6 +91,7 @@ const MyPopup = ({ coinData, handleClose }) => {
             {coinData.symbol}
           </p>
         </div>
+        <MyPortfolio coinData={coinData} coinInfo={coinInfo} />
       </div>
     </div>
   );

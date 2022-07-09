@@ -1,20 +1,23 @@
 const mongoose = require("mongoose");
 
+const portfolioSchema =  new mongoose.Schema({
+  quantity: {type: String},
+  price_per_coin: {type: String},
+  fee: {type: String},
+  date_buyed: {type: String},
+}, { _id : false, timestamps: true })
+
 const profileSchema = new mongoose.Schema({
   first_name: {type: String},
   last_name: {type: String},
   birdth_date: {type: String},
   country: {type: String},
-})
+}, { _id : false })
 
 const coinSchema = new mongoose.Schema({
   id: { type: String, required: true, unique: true }, // empty string NONO!
   coin_name: { type: String },
-  // coin_logo: { type: String }, // empty list is default?
-  // coin_info: { type: String }
-  // coin_added: { type: String }
-  // coin_....: { type: String }
-  // coin_....: { type: String }
+  portfolio: [portfolioSchema]
 }, { _id : false });
 
 const userSchema = new mongoose.Schema({
