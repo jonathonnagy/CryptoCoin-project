@@ -5,6 +5,7 @@ const User = require("../model/user");
 const auth = require("../middleware/auth");
 const config = require("../app.config");
 const bcrypt = require("bcrypt");
+// const Client = require("../model/client");
 
 router.post("/login", auth({ block: false }), async (req, res) => {
   const payload = req.body;
@@ -110,12 +111,12 @@ router.post("/form_register", async (req, res) => {
   if (!username || !password || !cpassword) {
     return res.status(422).json({ error: "You need to fill all inputs" });
   }
-
+  // console.log(username)
   try {
-    const userExists = await User.findOne({ username });
-
+    const userExists = await User.findOne({username});
+    // console.log(userExists)
     if (userExists) {
-      return res.status(422).json({ error: "User already exists" });
+      return res.status(409).json({ error: "User already exists" });
     } else if (password !== cpassword) {
       return res.status(422).json({ error: "Passwords are not matching" });
     } else {
@@ -123,13 +124,17 @@ router.post("/form_register", async (req, res) => {
       const salt = await bcrypt.genSalt(6);
       const hashedPassword = await bcrypt.hash(password, salt);
 
-      const user = new User({ username, password: hashedPassword });
-      await user.save();
+      await User.create({ username, password: hashedPassword });
+
+      // await user.save();
+
       // console.log("saved");
       return res.status(201).json({ message: "User successfully registered!" });
     }
   } catch (error) {
+
     res.status(400).send({ error: "Something went wrong while registrating" });
+    
   }
 });
 
@@ -139,14 +144,37 @@ router.post("/form_login", async (req, res) => {
   if (!username || !password) {
     return res.status(422).json({ error: "You need to fill all inputs" });
   }
+  // console.log(req.body.client);
+  // if (!req.body.client || !req.body.redirectUri)
+  //   return res.status(422).json({ error: "Missing client or redirectUri" });
   try {
     const userExists = await User.findOne({ username });
+    // console.log(userExists)
     const hashedPassword = userExists.password;
     const validPassword = await bcrypt.compare(password, hashedPassword);
     if (!userExists || !validPassword)
       return res.status(422).json({ error: "Wrong username or password!" });
+
+    // const client = await Client.findOne({ client_id: req.body.client });
+    // console.log(client);
+   
+    // if (!client) return res.sendStatus(401);
+    // if (client.redirect_uri !== req.body.redirectUri) return res.sendStatus(401);
+
+    // const code =
+    //   Math.random().toString(36).substring(2, 15) +
+    //   Math.random().toString(36).substring(2, 15);
+    // client.users.push({
+    //   userId: userExists._id,
+    //   code,
+    // });
+
+    // await client.save();
+
     res.status(201).json({ message: "Logged in successfully" });
+    // res.json({ code });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ error: "Somethin went wrong while logging in" });
   }
 });
@@ -204,7 +232,10 @@ router.post("/add-transaction", async (req, res) => {
     if (!quantity && !pricePerCoin)
       return res
         .status(422)
-        .json({ error: "Quantity and Price Per Coin is required, and has to be a Number!" });
+        .json({
+          error:
+            "Quantity and Price Per Coin is required, and has to be a Number!",
+        });
 
     await User.updateOne(
       { _id: user.userId, "coins.id": coinId },

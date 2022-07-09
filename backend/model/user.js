@@ -15,7 +15,7 @@ const profileSchema = new mongoose.Schema({
 }, { _id : false })
 
 const coinSchema = new mongoose.Schema({
-  id: { type: String, required: true, unique: true }, // empty string NONO!
+  id: { type: String, required: true, unique: true}, // empty string NONO!
   coin_name: { type: String },
   portfolio: [portfolioSchema]
 }, { _id : false });
