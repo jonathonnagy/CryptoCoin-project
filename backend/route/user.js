@@ -7,6 +7,23 @@ const config = require("../app.config");
 const bcrypt = require("bcrypt");
 // const Client = require("../model/client");
 
+
+/**
+ * @swagger
+ * /api/user/login:
+ *  post:
+ *    description: Google login user
+ *    responses:
+ *      '200':
+ *        description: Successful response
+ *      '400':  
+ *        description: Failed request
+ *      '500':  
+ *        description: Failed request
+ *      '401':  
+ *        description: Failed request
+ */
+
 router.post("/login", auth({ block: false }), async (req, res) => {
   const payload = req.body;
   if (!payload) return res.status(400).send("Nice try1");
@@ -86,6 +103,21 @@ router.post("/login", auth({ block: false }), async (req, res) => {
   */
 });
 
+
+/**
+ * @swagger
+ * /api/user/create:
+ *  post:
+ *    description: Create Google user
+ *    responses:
+ *      '200':
+ *        description: Successful response
+ *      '400':  
+ *        description: Failed request
+ *      '422':  
+ *        description: Failed request
+ */
+
 router.post("/create", auth({ block: true }), async (req, res) => {
   if (!req.body?.username) return res.sendStatus(400);
   const userExists = await User.findOne({ username: req.body.username });
@@ -103,6 +135,22 @@ router.post("/create", auth({ block: true }), async (req, res) => {
   );
   res.status(200).json(token);
 });
+
+/**
+ * @swagger
+ * /api/user/form_register:
+ *  post:
+ *    description: Create user from form
+ *    responses:
+ *      '201':
+ *        description: User created
+ *      '400':  
+ *        description: Failed request
+ *      '409':  
+ *        description: Failed request
+ *      '422':  
+ *        description: Failed request
+ */
 
 //registrate from form
 router.post("/form_register", async (req, res) => {
@@ -124,7 +172,7 @@ router.post("/form_register", async (req, res) => {
       const salt = await bcrypt.genSalt(6);
       const hashedPassword = await bcrypt.hash(password, salt);
 
-      await User.create({ username, password: hashedPassword });
+      await User.create({ username, password: hashedPassword,  });
 
       // await user.save();
 
@@ -137,6 +185,20 @@ router.post("/form_register", async (req, res) => {
     
   }
 });
+
+/**
+ * @swagger
+ * /api/user/form_login:
+ *  post:
+ *    description: REgistrate user from form
+ *    responses:
+ *      '201':
+ *        description: User created
+ *      '400':  
+ *        description: Failed request
+ *      '422':  
+ *        description: Failed request
+ */
 
 router.post("/form_login", async (req, res) => {
   const { username, password } = req.body;
@@ -179,6 +241,20 @@ router.post("/form_login", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /api/user/add-to-mycoin:
+ *  post:
+ *    description: Add coin object to coins schema
+ *    responses:
+ *      '201':
+ *        description: Coin saved
+ *      '400':  
+ *        description: Failed request
+ *      '422':  
+ *        description: Failed request
+ */
+
 router.post("/add-to-mycoin", async (req, res) => {
   const { id, name, user } = req.body;
   if (!id) return res.status(422).json({ error: "No Coin id!" });
@@ -205,6 +281,20 @@ router.post("/add-to-mycoin", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /api/user/remove-from-mycoin:
+ *  post:
+ *    description: Remove coin object coins schema
+ *    responses:
+ *      '200':
+ *        description: User removed
+ *      '400':  
+ *        description: Failed request
+ *      '422':  
+ *        description: Failed request
+ */
+
 router.post("/remove-from-mycoin", async (req, res) => {
   const { id, user } = req.body;
   if (!id) return res.status(422).json({ error: "No Coin id!" });
@@ -224,6 +314,54 @@ router.post("/remove-from-mycoin", async (req, res) => {
     });
   }
 });
+
+/**
+ * @swagger
+ * /api/user/add-transaction:
+ *  post:
+ *    description: Add transaction to portfolio
+ *    parameters:
+ *       - name: quantity
+ *         description: Quantity of buyed coins
+ *         in: path
+ *         required: true
+ *         type: integer
+ *
+ *       - name: pricePerCoin
+ *         description: Price Per Coin
+ *         in: path
+ *         required: true
+ *         type: integer
+ *
+ *       - name: fee
+ *         description: Transaction fee
+ *         in: path
+ *         required: true
+ *         type: integer
+ *
+ *       - name: buyDate
+ *         description: Date buyed
+ *         in: path
+ *         required: true
+ *         type: integer
+ *
+ *       - name: user
+ *         description: User object id
+ *         in: path
+ *         required: true
+ *         type: integer
+ *
+ *       - name: coinId
+ *         description: CoinId
+ *         in: path
+ *         required: true
+ *         type: integer
+ *    responses:
+ *      '201':
+ *        description: Transaction successful
+ *      '422':  
+ *        description: Failed request
+ */
 
 router.post("/add-transaction", async (req, res) => {
   try {
@@ -256,6 +394,18 @@ router.post("/add-transaction", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /api/user/get-transactions:
+ *  get:
+ *    description: Get transactions for portfolio
+ *    responses:
+ *      '200':
+ *        description: Successful request
+ *      '400':  
+ *        description: Failed request
+ */
+
 router.get("/get-transactions", async (req, res) => {
   try {
     const { coinId, userId } = req.query;
@@ -270,11 +420,36 @@ router.get("/get-transactions", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /api/user/get-saved:
+ *  get:
+ *    description: Get saved coins from DB
+ *    responses:
+ *      '200':
+ *        description: Successful request
+ *      '400':  
+ *        description: Failed request
+ */
+
 router.get("/get-saved", async (req, res) => {
   const savedCoins = await User.findOne({ user: req.body.user });
   console.log(savedCoins);
   res.status(200).send(savedCoins);
 });
+
+/**
+ * @swagger
+ * /api/user/save-profile:
+ *  post:
+ *    description: Get saved coins from DB
+ *    responses:
+ *      '201':
+ *        description: Successful request
+ *      '400':  
+ *        description: Failed request
+ */
+
 
 router.post("/save-profile", async (req, res) => {
   const { firstName, lastName, birdthDate, country, user } = req.body;
@@ -299,12 +474,24 @@ router.post("/save-profile", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /api/user/get-profile-data:
+ *  post:
+ *    description: Get saved coins from DB
+ *    responses:
+ *      '200':
+ *        description: Successful request
+ *      '400':  
+ *        description: Failed request
+ */
+
 router.post("/get-profile-data", async (req, res) => {
   try {
     const { user } = req.body;
     // console.log('user: ', user)
     const profileData = await User.findById({ _id: user.userId });
-    res.send(profileData.profile);
+    res.status(200).send(profileData.profile);
   } catch (error) {
     res.send({ error: error.message });
   }

@@ -6,6 +6,18 @@ const http = require("axios");
 // 	res.send(id)
 // });
 
+/**
+ * @swagger
+ * /api/coin/latest:
+ *  get:
+ *    description: Get latest coins from CMC
+ *    responses:
+ *      '200':
+ *        description: Successful request
+ *      '400':  
+ *        description: Failed request
+ */
+
 router.get("/latest", async (req, res) => {
   try {
     const response = await http.get(
@@ -23,6 +35,18 @@ router.get("/latest", async (req, res) => {
     res.send(error);
   }
 });
+
+/**
+ * @swagger
+ * /api/coin/info:
+ *  get:
+ *    description: Get coin info by ID from CMC
+ *    responses:
+ *      '200':
+ *        description: Successful request
+ *      '400':  
+ *        description: Failed request
+ */
 
 router.get("/info", async (req, res) => {
   const id = req.query.id;
@@ -44,6 +68,18 @@ router.get("/info", async (req, res) => {
     res.status(400).json({error});
   }
 });
+
+/**
+ * @swagger
+ * /api/coin/latest-by-id/{id}:
+ *  get:
+ *    description: Get latest coins from by ID CMC
+ *    responses:
+ *      '200':
+ *        description: Successful request
+ *      '400':  
+ *        description: Failed request
+ */
 
 router.get("/latest-by-id", async (req, res) => {
   const {id} = req.query;
