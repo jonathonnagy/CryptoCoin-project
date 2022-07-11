@@ -13,8 +13,8 @@ const swaggerOptions = {
   swaggerDefinition: {
     info: {
       version: "1.0.0",
-      title: "Customer API",
-      description: "Customer API Information",
+      title: "Crypto Coin API",
+      description: "Crypto Coin Information",
       contact: {
         name: "Amazing Developer"
       },
