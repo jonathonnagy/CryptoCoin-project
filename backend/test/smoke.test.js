@@ -1,3 +1,4 @@
+require("dotenv").config();
 const app = require("../app");
 const mockServer = require("supertest");
 const { MongoMemoryServer } = require("mongodb-memory-server");

@@ -11,11 +11,20 @@ const http = () => {
       const response = await instance.post(...params);
       return response;
     } catch (err) {
-      if (!err.response) return err;
       return err.response;
     }
   };
-  return { post, _instance: instance }; // _private_stuff
+
+  const get = async (...params) => {
+    try {
+      const response = await instance.get(...params);
+      return response;
+    } catch (err) {
+      return err.response;
+    }
+  };
+  
+  return { post, get, _instance: instance };
 };
 
 module.exports = http();
