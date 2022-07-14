@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import http from "axios";
+// import http from "axios";
+import "./styles/Login.css";
 
 import { useAuth } from "../providers/auth";
 import { useNavigate } from "react-router-dom";
@@ -7,62 +8,56 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [resData, setResData] = useState("");
-  // const [searchParams, setSearchParams] = useSearchParams();
-  // const [error, setError] = useState(null)
-  // const [client, setClient] = useState(null)
-  // const [redirectUri, setRedirectUri] = useState(null)
 
   const { googleAuth, user } = useAuth();
 
-  const login = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await http.post(
-        "http://localhost:4000/api/user/form_login",
-        {
-          username,
-          password,
-          // client,
-          // redirectUri
-        }
-      );
-      console.log(response.data);
-      setResData(response.data.message);
-      // const code = response.data.code
-      // window.location.href = redirectUri + "?code=" + code
-    } catch (error) {
-      setResData(error.response.data.error);
-    }
-  };
+  // const login = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await http.post(
+  //       "http://localhost:4000/api/user/form_login",
+  //       {
+  //         username,
+  //         password,
+  //         // client,
+  //         // redirectUri
+  //       }
+  //     );
+  //     console.log(response.data);
+  //     setResData(response.data.message);
+  //     // const code = response.data.code
+  //     // window.location.href = redirectUri + "?code=" + code
+  //   } catch (error) {
+  //     setResData(error.response.data.error);
+  //   }
+  // };
 
   useEffect(() => {
-    if(user?.userId) navigate('/')
-    // const _client = searchParams.get('client_id')
-    // const _redirect_uri = searchParams.get('redirect_uri')
-    // if(!_client) {
-    //   return setError("Missing params - client_id")
-    // }
-    // if(!_redirect_uri) {
-    //   return setError("Missing params - redirect_uri")
-    // }
-    // setClient(_client)
-    // setRedirectUri(_redirect_uri)
-  }, [])
-  
-  
+    if (user?.userId) navigate("/");
+  }, []);
 
   return (
     <>
-      <h1>Login</h1>
-      {/* {error && <div>{error}</div>}
+      <h1 className="login-header">Login</h1>
+      <h2 className="login-header">
+        A better place for Crypto Currencies to Browse, Save for later or to
+        keep track of your Transactions!
+      </h2>
+      <div className="login-wrapper">
+        <div className="login-left"></div>
+        <div className="login-right">
+          <div className="login-card">
+            <p>See all your coins in one place</p>
+            <button className="google-login-btn" onClick={googleAuth}>
+              Login with Google
+            </button>
+          </div>
+        </div>
+        <div className="dog-walk-img"></div>
+      </div>
 
-
-      {!error && <div>{error}</div>}  berakni az alatta levo html-t */}
-      <form>
-        <input
+      {/* <form> */}
+      {/* <input
           type="text"
           placeholder="Username"
           autoComplete="on"
@@ -77,15 +72,14 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button onClick={(e) => login(e)}>Sign in</button>
-        <button onClick={googleAuth}>Sign in with Google</button>
-        {/* <button onClick={(e) => formSignup(e)}>Signup with Facebook</button> */}
-        <p>{resData}</p>
-      </form>
-      <p>
+        <button onClick={(e) => login(e)}>Sign in</button> */}
+      {/* <button onClick={(e) => formSignup(e)}>Signup with Facebook</button> */}
+      {/* <p>{resData}</p> */}
+      {/* </form> */}
+      {/* <p>
         Don't have an account?{" "}
         <button onClick={() => navigate("/registrate")}>Sign up here</button>.
-      </p>
+      </p> */}
     </>
   );
 };

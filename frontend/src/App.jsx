@@ -32,7 +32,7 @@ function App() {
           }
         />
         <Route path="/addusername" element={<AddUsername />} />
-        <Route path="/registrate" element={<Registrate />} />
+        {/* <Route path="/registrate" element={<Registrate />} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/callback" element={<Callback />} />
         <Route
