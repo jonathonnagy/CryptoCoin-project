@@ -102,7 +102,7 @@ const Profile = () => {
                 <div className="firstname">
                   <label className="form__label" htmlFor="firstName">
                     First Name:{" "}
-                  </label>
+                  </label><br />
                   <input
                     type="text"
                     name="firstName"
@@ -117,7 +117,7 @@ const Profile = () => {
                 <div className="lastname">
                   <label className="form__label" htmlFor="lastName">
                     Last Name:{" "}
-                  </label>
+                  </label><br />
                   <input
                     type="text"
                     name="lastName"
