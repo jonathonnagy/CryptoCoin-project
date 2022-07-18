@@ -12,8 +12,8 @@
   position: relative;
   width: 60vw;
   margin: 0 auto;
-  height: 60%;
-  max-height: 90vh;
+  /* height: 60%; */
+  /* max-height: 90vh; */
   /* margin-top: calc(100vh - 85vh - 20px); */
   background: rgb(85, 85, 85);
   background: linear-gradient(
@@ -127,6 +127,9 @@
 	line-height: 30px;
 }
 
-.portfolio-wrapper {
-  /* background-color: ; */
+#quantity, #pricePerCoin, #fee {
+  height: 50px;
+  width: 15%;
+  border-radius: 5px;
+  font-size: large;
 }

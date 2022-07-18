@@ -61,9 +61,10 @@ const MyPortfolio = ({ coinData, coinInfo }) => {
 
  const totalQuantity = transactions.map(e => Number(e.quantity)).reduce((prev, curr) => prev + curr,0)
  const totalFee = transactions.map(e =>Number(e.fee)).reduce((prev, curr) => prev + curr,0)
-
- const balance = totalQuantity * Math.floor(coinInfo.quote?.USD.price * 100) / 100 + totalFee
-
+ const totalPricePerCoin = transactions.map(e => Number(e.quantity) * Number(e.price_per_coin)).reduce((prev, curr) => prev + curr,0)
+ const balance = totalQuantity * Math.floor(coinInfo.quote?.USD.price * 100) / 100 - totalFee
+ const profit = balance - totalPricePerCoin
+console.log(totalPricePerCoin)
 
   useEffect(() => {
     getTransactions();
@@ -75,7 +76,7 @@ const MyPortfolio = ({ coinData, coinInfo }) => {
 
       <div className="portfolio-wrapper">
         <div className="portfolio-input">
-          <p>Add Transaction </p>
+          <p>Add Transactions </p>
           <label htmlFor="quantity">Quantity: </label>
           <InputNumber
             step={0.01}
@@ -113,10 +114,10 @@ const MyPortfolio = ({ coinData, coinInfo }) => {
               }}
             />
           </LocalizationProvider>
-          <Button variant="contained" onClick={addTransaction}>
+        </div>
+          <Button variant="contained" sx={{margin: 2}} onClick={addTransaction}>
             Add
           </Button>
-        </div>
         <div className="portfolio-data">
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -146,6 +147,7 @@ const MyPortfolio = ({ coinData, coinInfo }) => {
             </Table>
             <h2>Total quantity: {totalQuantity} {coinData.symbol} </h2>
             <h2>Balance: {balance} $</h2>
+            <h2>Profit: {profit}$</h2>
           </TableContainer>
         </div>
       </div>
