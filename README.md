@@ -1,39 +1,49 @@
-# Fullstack Api Exam Project 2
-
-## Story
-
-In the second half of your final project, you will need to implement your application using the plan you've already created. When you are finished with your project, you will need to send the repository to the mentor team, at least 1 week before the final.
-
-## What are you going to learn?
-
-- how to create a containerized application
-
-## Tasks
-
-1. Implement your project, fulfilling every requirement that has been given and send the repository link to the mentors.
-    - The project is completed
-    - The mentor team has the link to the repository
-
-## General requirements
-
-- The application is an administrative system
-- The application uses model-service-component architecture
-- MongoDB base, with at least 5 entities (e.g. product, order, customer, delivery, bill ...)
-- NodeJS API, with at least 10 endpoints (e.g. /api/user, /api/product, /api/order ...)
-- Angular or React frontend, with at least 5 pages (Bootstrap/Material or other templates are allowed)
-- The application is dockerized, it can be run from a container
-- The client side is responsive
-- Some parts of the interface are only accessible after log in (JWT authentication)
-- Every element of the application is created with clean code principles
-- For every API path, there is at least 1 test written
-- At least 1-1 Unit and Integration test
-- Swagger based API documentation
-- Markdown dokumentation (readme) in the repository, containing the steps to install, how to configure and purpose of the application
-
-## Hints
-
-
-
-## Background materials
-
-
+<h1>Crypto Coin Project (Fullstack with mongoDb)</h1>
+<p>This project is a webapplication to keep track of crypto coins.</p><h2>General Information</h2>
+<ul>
+<li>This is a site for available Crypto coins from the CoinMarketCap API, save them to your own list, keep track of them, and create a portfolio of your transactions.
+</li>
+</ul><ul>
+<li>The site solves a problem for keeping track of your crypto currencies in one place.</li>
+</ul><h2>Technologies Used</h2>
+<ul>
+<li>HTML</li>
+</ul><ul>
+<li>CSS</li>
+</ul><ul>
+<li>Material UI</li>
+</ul><ul>
+<li>JavaScript</li>
+</ul><ul>
+<li>React</li>
+</ul><ul>
+<li>NodeJS</li>
+</ul><ul>
+<li>Express.js</li>
+</ul><ul>
+<li>Mongoose</li>
+</ul><ul>
+<li>MongoDB</li>
+</ul><ul>
+<li>Axios</li>
+</ul><ul>
+<li>Jest</li>
+</ul><ul>
+<li>JWT</li>
+</ul><h2>Screenshots</h2>
+<p><img src="" alt=""></p><p><img src="" alt=""></p><p><img src="" alt=""></p><h2>Setup</h2>
+<p>Clone down this repository. You will need node and npm installed globally on your machine.</p><h5>Steps</h5><ul>
+<li>Frontend: cd frontend, npm install, npm start</li>
+</ul><ul>
+<li>Backend: cd backend, npm install, npm start</li>
+</ul><h2>Usage</h2>
+<p>Open http://localhost:3000 to view it in your browser.</p>
+<p>The page will reload when you make changes. You may also see any lint errors in the console.</p><h2>Project Status</h2>
+<p>Completed</p><h2>Improvements</h2>
+<ul>
+<li>Improve design</li>
+<li>Add timeline chart for currencies</li>
+<li>Add delete button for each transaction to remove from database</li>
+<li></li>
+</ul><h2>Contact</h2>
+<p><span style="margin-right: 30px;"></span><a href="https://www.linkedin.com/in/nagyjon/"><img target="_blank" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" style="width: 10%;"></a></p>
