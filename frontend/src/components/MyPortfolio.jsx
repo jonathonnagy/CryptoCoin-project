@@ -147,7 +147,7 @@ console.log(totalPricePerCoin)
             </Table>
             <h2>Total quantity: {totalQuantity} {coinData.symbol} </h2>
             <h2>Balance: {balance} $</h2>
-            <h2>Profit: {profit}$</h2>
+            <h2>Profit: {profit > 0 ? profit : '0'}$</h2>
           </TableContainer>
         </div>
       </div>

@@ -7,7 +7,6 @@ const config = require("../app.config");
 const bcrypt = require("bcrypt");
 // const Client = require("../model/client");
 
-
 /**
  * @swagger
  * /api/user/login:
@@ -16,11 +15,11 @@ const bcrypt = require("bcrypt");
  *    responses:
  *      '200':
  *        description: Successful response
- *      '400':  
+ *      '400':
  *        description: Failed request
- *      '500':  
+ *      '500':
  *        description: Failed request
- *      '401':  
+ *      '401':
  *        description: Failed request
  */
 
@@ -103,7 +102,6 @@ router.post("/login", auth({ block: false }), async (req, res) => {
   */
 });
 
-
 /**
  * @swagger
  * /api/user/create:
@@ -112,9 +110,9 @@ router.post("/login", auth({ block: false }), async (req, res) => {
  *    responses:
  *      '200':
  *        description: Successful response
- *      '400':  
+ *      '400':
  *        description: Failed request
- *      '422':  
+ *      '422':
  *        description: Failed request
  */
 
@@ -144,11 +142,11 @@ router.post("/create", auth({ block: true }), async (req, res) => {
  *    responses:
  *      '201':
  *        description: User created
- *      '400':  
+ *      '400':
  *        description: Failed request
- *      '409':  
+ *      '409':
  *        description: Failed request
- *      '422':  
+ *      '422':
  *        description: Failed request
  */
 
@@ -161,7 +159,7 @@ router.post("/form_register", async (req, res) => {
   }
   // console.log(username)
   try {
-    const userExists = await User.findOne({username});
+    const userExists = await User.findOne({ username });
     // console.log(userExists)
     if (userExists) {
       return res.status(409).json({ error: "User already exists" });
@@ -172,7 +170,7 @@ router.post("/form_register", async (req, res) => {
       const salt = await bcrypt.genSalt(6);
       const hashedPassword = await bcrypt.hash(password, salt);
 
-      await User.create({ username, password: hashedPassword,  });
+      await User.create({ username, password: hashedPassword });
 
       // await user.save();
 
@@ -180,9 +178,7 @@ router.post("/form_register", async (req, res) => {
       return res.status(201).json({ message: "User successfully registered!" });
     }
   } catch (error) {
-
     res.status(400).send({ error: "Something went wrong while registrating" });
-    
   }
 });
 
@@ -194,9 +190,9 @@ router.post("/form_register", async (req, res) => {
  *    responses:
  *      '201':
  *        description: User created
- *      '400':  
+ *      '400':
  *        description: Failed request
- *      '422':  
+ *      '422':
  *        description: Failed request
  */
 
@@ -219,7 +215,7 @@ router.post("/form_login", async (req, res) => {
 
     // const client = await Client.findOne({ client_id: req.body.client });
     // console.log(client);
-   
+
     // if (!client) return res.sendStatus(401);
     // if (client.redirect_uri !== req.body.redirectUri) return res.sendStatus(401);
 
@@ -249,9 +245,9 @@ router.post("/form_login", async (req, res) => {
  *    responses:
  *      '201':
  *        description: Coin saved
- *      '400':  
+ *      '400':
  *        description: Failed request
- *      '422':  
+ *      '422':
  *        description: Failed request
  */
 
@@ -289,9 +285,9 @@ router.post("/add-to-mycoin", async (req, res) => {
  *    responses:
  *      '200':
  *        description: User removed
- *      '400':  
+ *      '400':
  *        description: Failed request
- *      '422':  
+ *      '422':
  *        description: Failed request
  */
 
@@ -359,7 +355,7 @@ router.post("/remove-from-mycoin", async (req, res) => {
  *    responses:
  *      '201':
  *        description: Transaction successful
- *      '422':  
+ *      '422':
  *        description: Failed request
  */
 
@@ -368,12 +364,10 @@ router.post("/add-transaction", async (req, res) => {
     const { quantity, pricePerCoin, fee, buyDate, user, coinId } = req.body;
 
     if (!quantity && !pricePerCoin)
-      return res
-        .status(422)
-        .json({
-          error:
-            "Quantity and Price Per Coin is required, and has to be a Number!",
-        });
+      return res.status(422).json({
+        error:
+          "Quantity and Price Per Coin is required, and has to be a Number!",
+      });
 
     await User.updateOne(
       { _id: user.userId, "coins.id": coinId },
@@ -402,18 +396,20 @@ router.post("/add-transaction", async (req, res) => {
  *    responses:
  *      '200':
  *        description: Successful request
- *      '400':  
+ *      '400':
  *        description: Failed request
  */
 
 router.get("/get-transactions", async (req, res) => {
   try {
     const { coinId, userId } = req.query;
-    const user = await User.findOne(
-      { _id: userId, "coins.id": coinId },
-      "coins.portfolio"
-    );
 
+    const user = await User.findOne(
+      { _id: userId },
+      {
+        coins: { $elemMatch: { id: coinId } },
+      }
+    );
     res.status(200).send(user);
   } catch (error) {
     console.log(error.message);
@@ -428,7 +424,7 @@ router.get("/get-transactions", async (req, res) => {
  *    responses:
  *      '200':
  *        description: Successful request
- *      '400':  
+ *      '400':
  *        description: Failed request
  */
 
@@ -446,10 +442,9 @@ router.get("/get-saved", async (req, res) => {
  *    responses:
  *      '201':
  *        description: Successful request
- *      '400':  
+ *      '400':
  *        description: Failed request
  */
-
 
 router.post("/save-profile", async (req, res) => {
   const { firstName, lastName, birdthDate, country, user } = req.body;
@@ -482,7 +477,7 @@ router.post("/save-profile", async (req, res) => {
  *    responses:
  *      '200':
  *        description: Successful request
- *      '400':  
+ *      '400':
  *        description: Failed request
  */
 
