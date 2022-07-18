@@ -42,6 +42,7 @@
 <p>Completed</p><h2>Improvements</h2>
 <ul>
 <li>Improve design</li>
+<li>Improve responsive design</li>
 <li>Add timeline chart for currencies</li>
 <li>Add delete button for each transaction to remove from database</li>
 </ul><h2>Contact</h2>
