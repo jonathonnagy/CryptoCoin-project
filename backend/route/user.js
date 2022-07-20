@@ -388,6 +388,26 @@ router.post("/add-transaction", async (req, res) => {
   }
 });
 
+router.post("/remove-transaction", async (req, res) => {
+  try {
+    const { user, coinId, transactionId } = req.body;
+
+    console.log(transactionId)
+
+    const toRemove = await User.updateOne(
+       
+       {_id: user.userId}, { $pull: {"coins.0.portfolio": {_id: transactionId}} }
+
+      //  {_id: user.userId}, { $pull: {"coins.$.portfolio": {_id: transactionId}} }
+      //  doesn't work with positional operator (.$.)
+    );
+    console.log(toRemove)
+    res.status(201).send({ message: "Transaction removed from portfolio." });
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
 /**
  * @swagger
  * /api/user/get-transactions:
