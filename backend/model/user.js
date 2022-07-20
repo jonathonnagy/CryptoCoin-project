@@ -5,7 +5,7 @@ const portfolioSchema =  new mongoose.Schema({
   price_per_coin: {type: String},
   fee: {type: String},
   date_buyed: {type: String},
-}, { _id : false, timestamps: true })
+}, { timestamps: true })
 
 const profileSchema = new mongoose.Schema({
   first_name: {type: String},
